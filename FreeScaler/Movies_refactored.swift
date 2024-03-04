@@ -105,6 +105,15 @@ extension AVAssetReader: AssetReadable {}
 extension AVAssetWriter: AssetWritable {}
 
 class VideoConverter {
+    // Private method to configure the asset reader's video track output
+    private func configureAssetReaderVideoOutput(for track: AVAssetTrack) -> AVAssetReaderTrackOutput {
+        let readerVideoSettings: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+        ]
+        let assetReaderVideoOutput = AVAssetReaderTrackOutput(track: track, outputSettings: readerVideoSettings)
+        assetReaderVideoOutput.alwaysCopiesSampleData = true
+        return assetReaderVideoOutput
+    }
     static let shared = VideoConverter()
     private let mainQueue = DispatchQueue(label: "com.freescaler.mainQueue")
     private let audioProcessingQueue = DispatchQueue(label: "com.freescaler.audioProcessingQueue")
@@ -344,6 +353,15 @@ extension AVAssetReader: AssetReadable {}
 extension AVAssetWriter: AssetWritable {}
 
 class VideoConverter {
+    // Private method to configure the asset reader's video track output
+    private func configureAssetReaderVideoOutput(for track: AVAssetTrack) -> AVAssetReaderTrackOutput {
+        let readerVideoSettings: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+        ]
+        let assetReaderVideoOutput = AVAssetReaderTrackOutput(track: track, outputSettings: readerVideoSettings)
+        assetReaderVideoOutput.alwaysCopiesSampleData = true
+        return assetReaderVideoOutput
+    }
     static let shared = VideoConverter()
     private let mainQueue = DispatchQueue(label: "com.freescaler.mainQueue")
     private let audioProcessingQueue = DispatchQueue(label: "com.freescaler.audioProcessingQueue")

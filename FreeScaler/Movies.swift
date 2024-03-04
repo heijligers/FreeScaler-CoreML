@@ -15,31 +15,21 @@ class VideoConverter : NSObject{
     static let shared = VideoConverter()
     private override init() {}
 
-    // Private method to load and prepare an asset
-    private func loadAndPrepareAsset(urlInput: URL) throws -> AVURLAsset {
+    // Correct implementation of loadAndPrepareAsset with proper error handling and synchronization
+    private func loadAndPrepareAsset(urlInput: URL, completion: @escaping (Result<AVURLAsset, Error>) -> Void) {
         let asset = AVURLAsset(url: urlInput)
-        var error: NSError?
-        let key = "tracks"
-        asset.loadValuesAsynchronously(forKeys: [key]) {
-            var status = asset.statusOfValue(forKey: key, error: &error)
-            if status != .loaded {
-                // Handle error
+        let keys = ["tracks"]
+        asset.loadValuesAsynchronously(forKeys: keys) {
+            for key in keys {
+                var error: NSError?
+                let status = asset.statusOfValue(forKey: key, error: &error)
+                if status == .failed || status == .cancelled {
+                    completion(.failure(error ?? NSError(domain: "com.freescaler", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to load asset tracks."])))
+                    return
+                }
             }
+            completion(.success(asset))
         }
-        return asset
-    }
-    // Private method to load and prepare an asset
-    private func loadAndPrepareAsset(urlInput: URL) throws -> AVURLAsset {
-        let asset = AVURLAsset(url: urlInput)
-        var error: NSError?
-        asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
-            var status = AVKeyValueStatus.loaded
-            status = asset.statusOfValue(forKey: "tracks", error: &error)
-            if status != .loaded {
-                throw error ?? NSError(domain: "com.freescaler", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to load asset tracks."])
-            }
-        }
-        return asset
     }
 
     // Private method to check and remove existing output file

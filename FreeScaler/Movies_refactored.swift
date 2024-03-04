@@ -530,7 +530,6 @@ class VideoConverter {
         assetWriter.startSession(atSourceTime: .zero)
     }
 
-    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
     private func processVideo(asset: AVURLAsset, assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
@@ -704,11 +703,8 @@ class VideoConverter {
         }
     }
 
-    // ... (rest of the VideoConverter class)
+   
 }
 
-// ... (rest of the Movies_refactored.swift content)
-    // Additional helper methods for video processing...
-}
 
-// Rest of the Movies_refactored.swift content...
+

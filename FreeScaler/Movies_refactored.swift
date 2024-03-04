@@ -61,12 +61,6 @@ class VideoConverter {
             // For brevity, this is not fully implemented here
 
             // Finalize writing and notify completion
-            assetWriter.finishWriting {
-                let success = assetWriter.status == .completed
-                completion(success, assetWriter.error)
-            }
-
-            completion(true, nil)
         } catch {
             completion(false, error)
         }
@@ -119,20 +113,50 @@ class VideoConverter {
             let assetReader = try assetReaderProvider(asset)
             let assetWriter = try assetWriterProvider(outputURL)
 
-            // Configure asset reader and writer...
-            // Rest of the code that configures and starts the reading and writing process
+            // Configure asset reader output
+            let videoOutputSettings: [String: Any] = [
+                String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32ARGB)
+            ]
+            let readerVideoTrackOutput = AVAssetReaderTrackOutput(track: asset.tracks(withMediaType: .video)[0], outputSettings: videoOutputSettings)
+            assetReader.addOutput(readerVideoTrackOutput)
+
+            // Configure asset writer input
+            let writerVideoSettings: [String: Any] = [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: NSNumber(value: Float(asset.tracks(withMediaType: .video)[0].naturalSize.width)),
+                AVVideoHeightKey: NSNumber(value: Float(asset.tracks(withMediaType: .video)[0].naturalSize.height))
+            ]
+            let writerVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: writerVideoSettings)
+            let assetWriterAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerVideoInput, sourcePixelBufferAttributes: nil)
+            writerVideoInput.expectsMediaDataInRealTime = false
+            writerVideoInput.transform = assetVideoTrack.preferredTransform
+            assetWriter.addInput(writerVideoInput)
+
+            // Start reading and writing process
+            assetWriter.startWriting()
+            assetWriter.startSession(atSourceTime: CMTime.zero)
+
+            // Read and write frames
+            let processingQueue = DispatchQueue(label: "processingQueue")
+            writerVideoInput.requestMediaDataWhenReady(on: processingQueue) {
+                while writerVideoInput.isReadyForMoreMediaData {
+                    if let sampleBuffer = readerVideoTrackOutput.copyNextSampleBuffer() {
+                        writerVideoInput.append(sampleBuffer)
+                    } else {
+                        writerVideoInput.markAsFinished()
+                        assetWriter.finishWriting {
+                            completion(assetWriter.status == .completed, assetWriter.error)
+                        }
+                        break
+                    }
+                }
+            }
 
             // Rest of the implementation to read from the assetReader and write to the assetWriter
             // This would include setting up input and output tracks, reading samples, and writing them to the output
             // For brevity, this is not fully implemented here
 
             // Finalize writing and notify completion
-            assetWriter.finishWriting {
-                let success = assetWriter.status == .completed
-                completion(success, assetWriter.error)
-            }
-
-            completion(true, nil)
         } catch {
             completion(false, error)
         }

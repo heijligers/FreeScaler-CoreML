@@ -50,7 +50,7 @@ class VideoConverter {
     // resources are properly released to prevent leaks and ensure proper cleanup after processing.
 
 
-    func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
+    func upscale(urlInput: URL, urlOutput: URL, completion: @escaping ((String) -> Void)) {
 class VideoConverter {
     // ... (other properties and methods)
 
@@ -278,7 +278,7 @@ class VideoConverter {
     // resources are properly released to prevent leaks and ensure proper cleanup after processing.
 
 
-    func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
+    func upscale(urlInput: URL, urlOutput: URL, completion: @escaping ((String) -> Void)) {
         do {
             let assetReader = try assetReaderProvider(asset)
             let assetWriter = try assetWriterProvider(outputURL)

@@ -11,10 +11,6 @@ import Cocoa
 import Vision
 import Accelerate
 
-
-
-
-
 class Upscaler : NSObject {
     
     static let shared = Upscaler() 
@@ -27,7 +23,6 @@ class Upscaler : NSObject {
     var myWidth : CGFloat = 0
     var myHeight : CGFloat = 0
 
-    
     // MARK: Setup CoreML Model
     
     func setupUpscaleModelFromPath(path:String, _ cUnits:MLComputeUnits? = nil) {
@@ -58,11 +53,6 @@ class Upscaler : NSObject {
             alert.runModal()
         }
     }
-
-
-    
-    
-    
     
     func upscale(image:NSImage) -> NSImage? {
         return self.predict(with: image)
@@ -86,14 +76,10 @@ class Upscaler : NSObject {
                                                       height: Int(self.myHeight * factor)) {
                 return self.pixbufferToNSImage(pixbuf: newbuffer)
             }
-            
         }
         return nil
-        
     }
 
-    
-    
     // MARK: Predict MOVIE FRAME
 
     func predictPixelBuffer(buffer:CVPixelBuffer) -> CVPixelBuffer? {
@@ -136,11 +122,7 @@ class Upscaler : NSObject {
         //print("pixbufferToNSImage output width:\(width) height:\(height)")
         return nsImage
     }
-        
-        
-
-
-
+ 
     // RESIZE PIXELBUFFER
     func resizePixelBuffer(_ pixelBuffer: CVPixelBuffer,
                            width: Int, height: Int) -> CVPixelBuffer? {
@@ -207,8 +189,4 @@ class Upscaler : NSObject {
         }
         return dstPixelBuffer
     }
-
-
-
-    
 }

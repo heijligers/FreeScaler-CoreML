@@ -69,6 +69,7 @@ class FSMainWindowController: NSWindowController {
         // create new single view controller
         viewCtrl["single"] = FSImageViewController(originalImage: image,
                                                    originalPath: path)
+        updateGlobalVideoDimensions(inputSize: image.size)
         // attach to main view
         let imageView = (viewCtrl["single"] as! FSImageViewController).view
         self.mainview.addSubview(imageView)

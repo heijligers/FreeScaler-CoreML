@@ -31,6 +31,13 @@ class FSMovieViewController: NSViewController {
         self.init()
         self.originalPath = originalPath
         self.asset = AVURLAsset(url: URL(fileURLWithPath: self.originalPath))
+        if let track = self.asset?.tracks(withMediaType: .video).first {
+                   let trackSize = track.naturalSize.applying(track.preferredTransform)
+                   let inputSize = CGSize(width: abs(trackSize.width), height: abs(trackSize.height))
+                   updateGlobalVideoDimensions(inputSize: inputSize)
+               }
+        
+        
     }
     
     
@@ -204,7 +211,13 @@ class FSMovieViewController: NSViewController {
         self.timertime = 0
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.setTimer), userInfo: nil, repeats: true)
         
+        // Update output file name based on input file name and selected model
+        let inputName = URL(fileURLWithPath: originalPath).deletingPathExtension().lastPathComponent
+        let modelName = popupModel.selectedItem?.title ?? "model"
+        outputFileName = "\(inputName)_\(modelName)-UPSCALED.mp4"
+        
         let panel = NSSavePanel()
+        panel.nameFieldStringValue = outputFileName // Use the dynamically generated file name
         panel.runModal()
         
         if let urloutput = panel.url {

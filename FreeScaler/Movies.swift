@@ -41,8 +41,8 @@ class VideoConverter : NSObject{
                 let assetWriter: AVAssetWriter
                 
                 do {
-                    assetReader = try AVAssetReader(asset: asset)
-                    assetWriter = try AVAssetWriter(outputURL: urlOutput, fileType: AVFileType.mov)
+                     assetReader =  try AVAssetReader(asset: asset)
+                     assetWriter =  try AVAssetWriter(outputURL: urlOutput, fileType: AVFileType.mov)
                 } catch {
                     return
                 }
@@ -107,11 +107,12 @@ class VideoConverter : NSObject{
                 let trackDimensions = assetVideoTrack.naturalSize
                 
                 
+                let factor : CGFloat = upscalingFactor
                 let videoSettings: [String: Any] = [
-                    AVVideoCodecKey  : AVVideoCodecType.h264,
-                    AVVideoWidthKey  : trackDimensions.width * 4,
-                    AVVideoHeightKey : trackDimensions.height * 4
-                ]
+                            AVVideoCodecKey  : AVVideoCodecType.h264,
+                            AVVideoWidthKey  : trackDimensions.width * factor,
+                            AVVideoHeightKey : trackDimensions.height * factor
+                            ]
                 
                 let assetWriterVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
                 let assetWriterAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterVideoInput, sourcePixelBufferAttributes: nil)

@@ -35,6 +35,14 @@ class VideoConverter {
     private let audioProcessingQueue: DispatchQueue
     private let completionQueue: DispatchQueue
 
+    // TODO: Implement error propagation to handle and forward errors during processing.
+    // TODO: Use protocols/interfaces to abstract the video and audio processing components.
+    // TODO: Implement asynchronous callbacks to handle completion and progress updates.
+    // TODO: Ensure proper resource management, especially for DispatchQueues and I/O resources.
+    // TODO: Modularize code to separate different functionalities into distinct components.
+    // TODO: Implement state management to track the progress and status of the conversion.
+    // TODO: Add validation and precondition checks to ensure the integrity of input data.
+
     init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init(asset:),
          assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init(outputURL:fileType:),
          videoProcessingQueue: DispatchQueue = DispatchQueue(label: "videoProcessingQueue"),
@@ -126,6 +134,14 @@ class VideoConverter {
     private let videoProcessingQueue: DispatchQueue
     private let audioProcessingQueue: DispatchQueue
     private let completionQueue: DispatchQueue
+
+    // TODO: Implement error propagation to handle and forward errors during processing.
+    // TODO: Use protocols/interfaces to abstract the video and audio processing components.
+    // TODO: Implement asynchronous callbacks to handle completion and progress updates.
+    // TODO: Ensure proper resource management, especially for DispatchQueues and I/O resources.
+    // TODO: Modularize code to separate different functionalities into distinct components.
+    // TODO: Implement state management to track the progress and status of the conversion.
+    // TODO: Add validation and precondition checks to ensure the integrity of input data.
 
     init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init(asset:),
          assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init(outputURL:fileType:),

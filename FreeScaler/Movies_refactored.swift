@@ -129,6 +129,16 @@ class VideoConverter {
                 if assetWriter.canAdd(assetWriterAudioInput!) {
                     assetWriter.add(assetWriterAudioInput!)
                 }
+
+                // Start the asset writer
+                guard assetWriter.startWriting() else {
+                    completion("Failed to start writing.")
+                    return
+                }
+                assetWriter.startSession(atSourceTime: .zero)
+
+                // TODO: Next, implement the frame reading and writing logic for video
+                // TODO: After that, implement the frame reading and writing logic for audio
             }
 
             // TODO: Next, implement the frame reading and writing logic for video and audio
@@ -449,6 +459,16 @@ class VideoConverter {
                 if assetWriter.canAdd(assetWriterAudioInput!) {
                     assetWriter.add(assetWriterAudioInput!)
                 }
+
+                // Start the asset writer
+                guard assetWriter.startWriting() else {
+                    completion("Failed to start writing.")
+                    return
+                }
+                assetWriter.startSession(atSourceTime: .zero)
+
+                // TODO: Next, implement the frame reading and writing logic for video
+                // TODO: After that, implement the frame reading and writing logic for audio
             }
 
             // TODO: Next, implement the frame reading and writing logic for video and audio

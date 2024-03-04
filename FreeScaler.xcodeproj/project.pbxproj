@@ -77,6 +77,7 @@
 		3FCA283229354C73005F9106 /* FSMainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FSMainWindowController.xib; sourceTree = "<group>"; };
 		D405BB9A2B966B6E00152ACA /* FreeScalerTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = FreeScalerTests; sourceTree = "<group>"; };
 		D405BB9D2B966B8400152ACA /* UpscalerRefactored.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpscalerRefactored.swift; path = FreeScaler/UpscalerRefactored.swift; sourceTree = "<group>"; };
+		D405BBA02B966FB700152ACA /* FreeScaler.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FreeScaler.xctestplan; sourceTree = "<group>"; };
 		D4E5E9BF29365F55002A1DC8 /* realesrganAnime512.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = realesrganAnime512.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +123,7 @@
 		3FCA27FD29353E03005F9106 = {
 			isa = PBXGroup;
 			children = (
+				D405BBA02B966FB700152ACA /* FreeScaler.xctestplan */,
 				D405BB9D2B966B8400152ACA /* UpscalerRefactored.swift */,
 				D405BB9A2B966B6E00152ACA /* FreeScalerTests */,
 				3F56540F2936FF8900CF6601 /* README.md */,

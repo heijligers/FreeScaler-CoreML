@@ -284,6 +284,19 @@ class VideoConverter {
         }
     }
 
+    // Private method to configure the asset reader for video tracks
+    private func configureAssetReaderForVideo(asset: AVURLAsset) throws -> AVAssetReaderTrackOutput {
+        guard let assetVideoTrack = asset.tracks(withMediaType: .video).first else {
+            throw VideoConverterError.noVideoTracks
+        }
+        let readerVideoSettings: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+        ]
+        let assetReaderVideoOutput = AVAssetReaderTrackOutput(track: assetVideoTrack, outputSettings: readerVideoSettings)
+        assetReaderVideoOutput.alwaysCopiesSampleData = true
+        return assetReaderVideoOutput
+    }
+
     // ... (rest of the VideoConverter class)
 }
 

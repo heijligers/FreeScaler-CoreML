@@ -376,6 +376,13 @@ class VideoConverter {
                         } else {
                             // No more audio samples are available: mark the input as finished
                             assetWriterAudioInput.markAsFinished()
+                    // Check if the asset reader and writer have completed
+                    if assetReader.status == .completed && assetWriter.status == .writing {
+                        // TODO: Next, handle the overall completion of the asset writing process
+                        // TODO: After that, invoke the completion handler with success or error
+                    } else {
+                        // TODO: Handle any errors if the reading or writing status is not completed
+                    }
                             break
                         }
                     }
@@ -799,6 +806,13 @@ class VideoConverter {
                         } else {
                             // No more audio samples are available: mark the input as finished
                             assetWriterAudioInput.markAsFinished()
+                    // Check if the asset reader and writer have completed
+                    if assetReader.status == .completed && assetWriter.status == .writing {
+                        // TODO: Next, handle the overall completion of the asset writing process
+                        // TODO: After that, invoke the completion handler with success or error
+                    } else {
+                        // TODO: Handle any errors if the reading or writing status is not completed
+                    }
                             break
                         }
                     }

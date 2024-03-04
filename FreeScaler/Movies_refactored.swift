@@ -30,6 +30,9 @@ extension AVAssetWriter: AssetWritable {}
 
 class VideoConverter {
     static let shared = VideoConverter()
+    private let mainQueue = DispatchQueue(label: "com.freescaler.mainQueue")
+    private let audioQueue = DispatchQueue(label: "com.freescaler.audioQueue")
+    private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
     // TODO: Implement error propagation to handle and forward errors during processing.
@@ -258,6 +261,9 @@ extension AVAssetWriter: AssetWritable {}
 
 class VideoConverter {
     static let shared = VideoConverter()
+    private let mainQueue = DispatchQueue(label: "com.freescaler.mainQueue")
+    private let audioQueue = DispatchQueue(label: "com.freescaler.audioQueue")
+    private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
     // TODO: Implement error propagation to handle and forward errors during processing.

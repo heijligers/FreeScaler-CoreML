@@ -144,6 +144,15 @@ class VideoConverter {
                 while assetWriterVideoInput.isReadyForMoreMediaData {
                     if let sampleBuffer = assetReaderVideoOutput.copyNextSampleBuffer() {
                         // TODO: Next, upscale the video frames and append them to the asset writer input
+                        // Retrieve the video frame from the sample buffer
+                        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                            // Call the upscaling method from the Upscaler class
+                            if let upscaledBuffer = Upscaler.shared.predictPixelBuffer(buffer: imageBuffer) {
+                                // TODO: Next, append the upscaled video frame to the asset writer input
+                            } else {
+                                // TODO: Handle the error if upscaling fails
+                            }
+                        }
                         // TODO: After that, mark the asset writer input as finished when all frames are processed
                     } else {
                         // No more samples are available: mark the input as finished
@@ -152,6 +161,8 @@ class VideoConverter {
                     }
                 }
             }
+            // TODO: After that, implement the frame reading and writing logic for audio
+        }
                 // TODO: After that, implement the frame reading and writing logic for audio
             }
 
@@ -488,6 +499,15 @@ class VideoConverter {
                 while assetWriterVideoInput.isReadyForMoreMediaData {
                     if let sampleBuffer = assetReaderVideoOutput.copyNextSampleBuffer() {
                         // TODO: Next, upscale the video frames and append them to the asset writer input
+                        // Retrieve the video frame from the sample buffer
+                        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                            // Call the upscaling method from the Upscaler class
+                            if let upscaledBuffer = Upscaler.shared.predictPixelBuffer(buffer: imageBuffer) {
+                                // TODO: Next, append the upscaled video frame to the asset writer input
+                            } else {
+                                // TODO: Handle the error if upscaling fails
+                            }
+                        }
                         // TODO: After that, mark the asset writer input as finished when all frames are processed
                     } else {
                         // No more samples are available: mark the input as finished
@@ -496,6 +516,8 @@ class VideoConverter {
                     }
                 }
             }
+            // TODO: After that, implement the frame reading and writing logic for audio
+        }
                 // TODO: After that, implement the frame reading and writing logic for audio
             }
 

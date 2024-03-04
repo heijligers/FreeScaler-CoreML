@@ -68,6 +68,17 @@
 //}
 import Foundation
 import AVFoundation
+
+// Private method to configure the asset reader's video track output
+private func configureAssetReaderVideoOutput(for track: AVAssetTrack) -> AVAssetReaderTrackOutput {
+    let readerVideoSettings: [String: Any] = [
+        String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)
+    ]
+    let assetReaderVideoOutput = AVAssetReaderTrackOutput(track: track, outputSettings: readerVideoSettings)
+    assetReaderVideoOutput.alwaysCopiesSampleData = true
+    return assetReaderVideoOutput
+}
+
 import CoreMedia
 import AppKit
 

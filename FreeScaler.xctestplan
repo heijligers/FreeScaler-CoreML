@@ -1,0 +1,23 @@
+{
+  "configurations" : [
+    {
+      "id" : "8F18D094-9FF0-4A62-84C2-74946E698A96",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FreeScaler.xcodeproj",
+      "identifier" : "3FCA280529353E03005F9106",
+      "name" : "FreeScaler"
+    }
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}

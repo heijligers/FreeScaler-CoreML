@@ -56,11 +56,11 @@ class VideoConverter {
             }
             assetWriter.startSession(atSourceTime: .zero)
 
-            // Rest of the implementation to read from the assetReader and write to the assetWriter
-            // This would include setting up input and output tracks, reading samples, and writing them to the output
-            // For brevity, this is not fully implemented here
-
             // Finalize writing and notify completion
+            assetWriter.finishWriting {
+                let success = assetWriter.status == .completed
+                completion(success, assetWriter.error)
+            }
         } catch {
             completion(false, error)
         }
@@ -152,11 +152,11 @@ class VideoConverter {
                 }
             }
 
-            // Rest of the implementation to read from the assetReader and write to the assetWriter
-            // This would include setting up input and output tracks, reading samples, and writing them to the output
-            // For brevity, this is not fully implemented here
-
             // Finalize writing and notify completion
+            assetWriter.finishWriting {
+                let success = assetWriter.status == .completed
+                completion(success, assetWriter.error)
+            }
         } catch {
             completion(false, error)
         }

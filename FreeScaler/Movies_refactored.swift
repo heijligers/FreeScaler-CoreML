@@ -1,6 +1,71 @@
-//  Movies_refactored.swift
-//  FreeScaler
-
+////  Movies_refactored.swift
+////  FreeScaler
+//
+//
+//This pseudocode represents the final structure of the refactored code, where VideoConverterRefactored is responsible for
+//managing the video conversion process, and UpscalerRefactored is responsible for the upscaling logic. The upscale method in
+//VideoConverterRefactored orchestrates the entire process, including preparing the reader and writer, processing video and audio
+//tracks, and handling completion. The UpscalerRefactored class provides methods to upscale images and sample buffers using a Core
+//ML model. The usage example at the end shows how to instantiate and use these classes to perform video upscaling.
+//
+//Class VideoConverterRefactored
+//    // Properties
+//    - asset: AVURLAsset
+//    - assetReader: AssetReadable
+//    - assetWriter: AssetWritable
+//    - videoProcessingQueue: DispatchQueue
+//    - audioProcessingQueue: DispatchQueue
+//    - upscaler: Upscaler
+//    - completion: (Result<String, Error>) -> Void
+//
+//    // Initializer
+//    + init(urlInput: URL, urlOutput: URL, upscaler: Upscaler)
+//
+//    // Public Methods
+//    + upscale(completion: @escaping (Result<String, Error>) -> Void)
+//
+//    // Private Methods
+//    - checkAndRemoveExistingOutputFile(urlOutput: URL) throws
+//    - loadAndPrepareAsset(urlInput: URL) throws
+//    - prepareAssetReaderAndWriter() throws
+//    - processVideoTracks() throws
+//    - processAudioTracks() throws
+//    - synchronizeAudioVideoProcessing() throws
+//    - finishWriting() throws
+//    - handleCompletion()
+//    - provideProgressUpdates() // Optional method for progress updates
+//
+//End Class
+//
+//Class UpscalerRefactored
+//    // Properties
+//    - model: MLModel
+//    - request: VNCoreMLRequest
+//
+//    // Initializer
+//    + init(model: MLModel)
+//
+//    // Public Methods
+//    + upscaleImage(image: NSImage) -> NSImage?
+//    + upscaleSampleBuffer(sampleBuffer: CMSampleBuffer) -> CMSampleBuffer?
+//
+//    // Private Methods
+//    - performUpscaleRequest(buffer: CVPixelBuffer) -> CVPixelBuffer?
+//    - resizePixelBuffer(pixelBuffer: CVPixelBuffer, targetSize: CGSize) -> CVPixelBuffer?
+//
+//End Class
+//
+//// Usage Example
+//let upscaler = UpscalerRefactored(model: myModel)
+//let videoConverter = VideoConverterRefactored(urlInput: inputURL, urlOutput: outputURL, upscaler: upscaler)
+//videoConverter.upscale { result in
+//    switch result {
+//        case .success(let message):
+//            print("Upscaling completed: \(message)")
+//        case .failure(let error):
+//            print("Upscaling failed with error: \(error)")
+//    }
+//}
 import Foundation
 import AVFoundation
 import CoreMedia

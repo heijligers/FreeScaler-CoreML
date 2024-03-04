@@ -100,7 +100,7 @@ class VideoConverter {
         assetWriter.startSession(atSourceTime: .zero)
     }
 
-    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void) {
+    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
     private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
@@ -114,8 +114,19 @@ class VideoConverter {
                 let totalDuration = asset.duration
                 var processedDuration = CMTime.zero
                 // Simulate successful processing:
-                completionQueue.async {
+                while assetReader.status == .reading && assetWriter.status == .writing {
+                    // Simulate reading and processing a frame
+                    // This is where the frame processing would actually occur
+                    // For now, we just simulate the passage of time
+                    processedDuration = CMTimeAdd(processedDuration, CMTimeMake(value: 1, timescale: 30))
                     progress(processedDuration.seconds / totalDuration.seconds)
+                    // Simulate a delay for processing each frame
+                    Thread.sleep(forTimeInterval: 0.05)
+                }
+                if assetReader.status == .failed || assetWriter.status == .failed {
+                    throw assetReader.error ?? assetWriter.error ?? VideoConverterError.unknownError
+                }
+                completionQueue.async {
                     completion(true, nil)
                 }
             } catch {
@@ -263,7 +274,7 @@ class VideoConverter {
         assetWriter.startSession(atSourceTime: .zero)
     }
 
-    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void) {
+    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
     private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
@@ -277,8 +288,19 @@ class VideoConverter {
                 let totalDuration = asset.duration
                 var processedDuration = CMTime.zero
                 // Simulate successful processing:
-                completionQueue.async {
+                while assetReader.status == .reading && assetWriter.status == .writing {
+                    // Simulate reading and processing a frame
+                    // This is where the frame processing would actually occur
+                    // For now, we just simulate the passage of time
+                    processedDuration = CMTimeAdd(processedDuration, CMTimeMake(value: 1, timescale: 30))
                     progress(processedDuration.seconds / totalDuration.seconds)
+                    // Simulate a delay for processing each frame
+                    Thread.sleep(forTimeInterval: 0.05)
+                }
+                if assetReader.status == .failed || assetWriter.status == .failed {
+                    throw assetReader.error ?? assetWriter.error ?? VideoConverterError.unknownError
+                }
+                completionQueue.async {
                     completion(true, nil)
                 }
             } catch {

@@ -29,12 +29,8 @@ extension AVAssetReader: AssetReadable {}
 extension AVAssetWriter: AssetWritable {}
 
 class VideoConverter {
-    private let assetReaderProvider: (AVURLAsset) throws -> AssetReadable
-    private let assetWriterProvider: (URL) throws -> AssetWritable
-    private let videoProcessingQueue: DispatchQueue
-    private let audioProcessingQueue: DispatchQueue
-    private let completionQueue: DispatchQueue
-    private let upscaler: Upscaler
+    static let shared = VideoConverter()
+    private override init() {}
 
     // TODO: Implement error propagation to handle and forward errors during processing.
     // TODO: Use protocols/interfaces to abstract the video and audio processing components.
@@ -53,18 +49,6 @@ class VideoConverter {
     // TODO: Manage resources effectively, ensuring that file handles, memory buffers, and other
     // resources are properly released to prevent leaks and ensure proper cleanup after processing.
 
-    init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init(asset:),
-         assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init(outputURL:fileType:),
-         videoProcessingQueue: DispatchQueue = DispatchQueue(label: "videoProcessingQueue"),
-         audioProcessingQueue: DispatchQueue = DispatchQueue(label: "audioProcessingQueue"),
-         completionQueue: DispatchQueue = DispatchQueue.main) {
-        self.assetReaderProvider = assetReaderProvider
-        self.assetWriterProvider = assetWriterProvider
-        self.videoProcessingQueue = videoProcessingQueue
-        self.audioProcessingQueue = audioProcessingQueue
-        self.completionQueue = completionQueue
-        self.upscaler = Upscaler.shared
-    }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
 class VideoConverter {
@@ -273,12 +257,8 @@ extension AVAssetReader: AssetReadable {}
 extension AVAssetWriter: AssetWritable {}
 
 class VideoConverter {
-    private let assetReaderProvider: (AVURLAsset) throws -> AssetReadable
-    private let assetWriterProvider: (URL) throws -> AssetWritable
-    private let videoProcessingQueue: DispatchQueue
-    private let audioProcessingQueue: DispatchQueue
-    private let completionQueue: DispatchQueue
-    private let upscaler: Upscaler
+    static let shared = VideoConverter()
+    private override init() {}
 
     // TODO: Implement error propagation to handle and forward errors during processing.
     // TODO: Use protocols/interfaces to abstract the video and audio processing components.
@@ -297,18 +277,6 @@ class VideoConverter {
     // TODO: Manage resources effectively, ensuring that file handles, memory buffers, and other
     // resources are properly released to prevent leaks and ensure proper cleanup after processing.
 
-    init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init(asset:),
-         assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init(outputURL:fileType:),
-         videoProcessingQueue: DispatchQueue = DispatchQueue(label: "videoProcessingQueue"),
-         audioProcessingQueue: DispatchQueue = DispatchQueue(label: "audioProcessingQueue"),
-         completionQueue: DispatchQueue = DispatchQueue.main) {
-        self.assetReaderProvider = assetReaderProvider
-        self.assetWriterProvider = assetWriterProvider
-        self.videoProcessingQueue = videoProcessingQueue
-        self.audioProcessingQueue = audioProcessingQueue
-        self.completionQueue = completionQueue
-        self.upscaler = Upscaler.shared
-    }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
         do {

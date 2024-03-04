@@ -188,14 +188,19 @@ class VideoConverter {
 
     private func processAudio(assetReader: AssetReadable, assetWriter: AssetWritable, readerAudioTrackOutput: AVAssetReaderTrackOutput?, writerAudioInput: AVAssetWriterInput?, completion: @escaping (Bool, Error?) -> Void) {
         audioProcessingQueue.async {
-            // Placeholder for actual audio processing logic:
-            // while let sampleBuffer = readerAudioTrackOutput?.copyNextSampleBuffer() {
-            //     if writerAudioInput?.isReadyForMoreMediaData ?? false {
-            //         writerAudioInput?.append(sampleBuffer)
-            //     }
-            // }
-            // For now, we just simulate the completion of audio processing
-            completion(true, nil)
+            guard let readerOutput = readerAudioTrackOutput, let writerInput = writerAudioInput else {
+                completion(false, VideoConverterError.audioTrackNotAvailable)
+                return
+            }
+            while writerInput.isReadyForMoreMediaData {
+                if let sampleBuffer = readerOutput.copyNextSampleBuffer() {
+                    writerInput.append(sampleBuffer)
+                } else {
+                    writerInput.markAsFinished()
+                    completion(true, nil)
+                    break
+                }
+            }
         }
     }
 
@@ -424,14 +429,19 @@ class VideoConverter {
 
     private func processAudio(assetReader: AssetReadable, assetWriter: AssetWritable, readerAudioTrackOutput: AVAssetReaderTrackOutput?, writerAudioInput: AVAssetWriterInput?, completion: @escaping (Bool, Error?) -> Void) {
         audioProcessingQueue.async {
-            // Placeholder for actual audio processing logic:
-            // while let sampleBuffer = readerAudioTrackOutput?.copyNextSampleBuffer() {
-            //     if writerAudioInput?.isReadyForMoreMediaData ?? false {
-            //         writerAudioInput?.append(sampleBuffer)
-            //     }
-            // }
-            // For now, we just simulate the completion of audio processing
-            completion(true, nil)
+            guard let readerOutput = readerAudioTrackOutput, let writerInput = writerAudioInput else {
+                completion(false, VideoConverterError.audioTrackNotAvailable)
+                return
+            }
+            while writerInput.isReadyForMoreMediaData {
+                if let sampleBuffer = readerOutput.copyNextSampleBuffer() {
+                    writerInput.append(sampleBuffer)
+                } else {
+                    writerInput.markAsFinished()
+                    completion(true, nil)
+                    break
+                }
+            }
         }
     }
 

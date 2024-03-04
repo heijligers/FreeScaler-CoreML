@@ -173,16 +173,6 @@ class VideoConverter {
                 }
                 let totalDuration = asset.duration
                 var processedDuration = CMTime.zero
-                // Simulate successful processing:
-                while assetReader.status == .reading && assetWriter.status == .writing {
-                    // Simulate reading and processing a frame
-                    // This is where the frame processing would actually occur
-                    // For now, we just simulate the passage of time
-                    processedDuration = CMTimeAdd(processedDuration, CMTimeMake(value: 1, timescale: 30))
-                    progress(processedDuration.seconds / totalDuration.seconds)
-                    // Simulate a delay for processing each frame
-                    Thread.sleep(forTimeInterval: 0.05)
-                }
                 if assetReader.status == .failed || assetWriter.status == .failed {
                     throw assetReader.error ?? assetWriter.error ?? VideoConverterError.unknownError
                 }
@@ -287,13 +277,6 @@ class VideoConverter {
                         } else {
                             // No more audio samples are available: mark the input as finished
                             assetWriterAudioInput.markAsFinished()
-                    // Check if the asset reader and writer have completed
-                    if assetReader.status == .completed && assetWriter.status == .writing {
-                        // TODO: Next, handle the overall completion of the asset writing process
-                        // TODO: After that, invoke the completion handler with success or error
-                    } else {
-                        // TODO: Handle any errors if the reading or writing status is not completed
-                    }
                             break
                         }
                     }

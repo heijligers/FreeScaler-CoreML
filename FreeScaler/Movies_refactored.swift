@@ -139,6 +139,31 @@ class VideoConverter {
         }
     }
 
+    private func configureVideoSettings(for asset: AVURLAsset) throws -> (readerOutput: AVAssetReaderTrackOutput, writerInput: AVAssetWriterInput, writerAdaptor: AVAssetWriterInputPixelBufferAdaptor) {
+        guard let assetVideoTrack = asset.tracks(withMediaType: .video).first else {
+            throw VideoConverterError.noVideoTracks
+        }
+
+        // Configure asset reader output
+        let readerVideoSettings: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32ARGB)
+        ]
+        let readerVideoTrackOutput = AVAssetReaderTrackOutput(track: assetVideoTrack, outputSettings: readerVideoSettings)
+
+        // Configure asset writer input
+        let writerVideoSettings: [String: Any] = [
+            AVVideoCodecKey: AVVideoCodecType.h264,
+            AVVideoWidthKey: NSNumber(value: Float(assetVideoTrack.naturalSize.width)),
+            AVVideoHeightKey: NSNumber(value: Float(assetVideoTrack.naturalSize.height))
+        ]
+        let writerVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: writerVideoSettings)
+        let writerAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerVideoInput, sourcePixelBufferAttributes: nil)
+        writerVideoInput.expectsMediaDataInRealTime = false
+        writerVideoInput.transform = assetVideoTrack.preferredTransform
+
+        return (readerVideoTrackOutput, writerVideoInput, writerAdaptor)
+    }
+
     // ... (rest of the VideoConverter class)
 }
 
@@ -313,6 +338,31 @@ class VideoConverter {
                 }
             }
         }
+    }
+
+    private func configureVideoSettings(for asset: AVURLAsset) throws -> (readerOutput: AVAssetReaderTrackOutput, writerInput: AVAssetWriterInput, writerAdaptor: AVAssetWriterInputPixelBufferAdaptor) {
+        guard let assetVideoTrack = asset.tracks(withMediaType: .video).first else {
+            throw VideoConverterError.noVideoTracks
+        }
+
+        // Configure asset reader output
+        let readerVideoSettings: [String: Any] = [
+            String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32ARGB)
+        ]
+        let readerVideoTrackOutput = AVAssetReaderTrackOutput(track: assetVideoTrack, outputSettings: readerVideoSettings)
+
+        // Configure asset writer input
+        let writerVideoSettings: [String: Any] = [
+            AVVideoCodecKey: AVVideoCodecType.h264,
+            AVVideoWidthKey: NSNumber(value: Float(assetVideoTrack.naturalSize.width)),
+            AVVideoHeightKey: NSNumber(value: Float(assetVideoTrack.naturalSize.height))
+        ]
+        let writerVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: writerVideoSettings)
+        let writerAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerVideoInput, sourcePixelBufferAttributes: nil)
+        writerVideoInput.expectsMediaDataInRealTime = false
+        writerVideoInput.transform = assetVideoTrack.preferredTransform
+
+        return (readerVideoTrackOutput, writerVideoInput, writerAdaptor)
     }
 
     // ... (rest of the VideoConverter class)

@@ -100,19 +100,12 @@ class VideoConverter {
     private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
-    // TODO: Implement error propagation to handle and forward errors during processing.
-    // TODO: Use protocols/interfaces to abstract the video and audio processing components.
-    // TODO: Implement asynchronous callbacks to handle completion and progress updates.
-    // TODO: Ensure proper resource management, especially for DispatchQueues and I/O resources.
-    // TODO: Modularize code to separate different functionalities into distinct components.
     // TODO: Implement state management to track the progress and status of the conversion.
     // TODO: Add validation and precondition checks to ensure the integrity of input data.
 
     // TODO: Implement comprehensive error handling and propagation to ensure that any issues during
     // video conversion are communicated back to the caller with appropriate context.
 
-    // TODO: Maintain asynchronous processing of video and audio tracks, and provide callbacks
-    // for progress updates and completion status to the caller.
 
     // TODO: Manage resources effectively, ensuring that file handles, memory buffers, and other
     // resources are properly released to prevent leaks and ensure proper cleanup after processing.
@@ -333,19 +326,12 @@ class VideoConverter {
     private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
-    // TODO: Implement error propagation to handle and forward errors during processing.
-    // TODO: Use protocols/interfaces to abstract the video and audio processing components.
-    // TODO: Implement asynchronous callbacks to handle completion and progress updates.
-    // TODO: Ensure proper resource management, especially for DispatchQueues and I/O resources.
-    // TODO: Modularize code to separate different functionalities into distinct components.
     // TODO: Implement state management to track the progress and status of the conversion.
     // TODO: Add validation and precondition checks to ensure the integrity of input data.
 
     // TODO: Implement comprehensive error handling and propagation to ensure that any issues during
     // video conversion are communicated back to the caller with appropriate context.
 
-    // TODO: Maintain asynchronous processing of video and audio tracks, and provide callbacks
-    // for progress updates and completion status to the caller.
 
     // TODO: Manage resources effectively, ensuring that file handles, memory buffers, and other
     // resources are properly released to prevent leaks and ensure proper cleanup after processing.

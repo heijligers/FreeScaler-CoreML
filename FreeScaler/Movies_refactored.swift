@@ -47,6 +47,8 @@ class VideoConverter {
             guard asset.tracks(withMediaType: .video).count > 0 else {
                 throw VideoConverterError.noVideoTracks
             }
+            // The refactored code now uses dependency injection for asset readers and writers,
+            // which allows for better testability and flexibility.
 
             guard assetReader.startReading() else {
                 throw assetReader.error ?? VideoConverterError.unknownError
@@ -56,6 +58,8 @@ class VideoConverter {
             }
             assetWriter.startSession(atSourceTime: .zero)
 
+            // The refactored code has removed the hardcoded video settings and now
+            // dynamically configures the reader and writer based on the source asset.
             // Finalize writing and notify completion
             assetWriter.finishWriting {
                 let success = assetWriter.status == .completed
@@ -136,6 +140,8 @@ class VideoConverter {
             assetWriter.startWriting()
             assetWriter.startSession(atSourceTime: CMTime.zero)
 
+            // The refactored code now includes a processing queue and handles the frame reading
+            // and writing in a while loop, allowing for asynchronous processing of video frames.
             // Read and write frames
             let processingQueue = DispatchQueue(label: "processingQueue")
             writerVideoInput.requestMediaDataWhenReady(on: processingQueue) {

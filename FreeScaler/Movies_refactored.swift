@@ -350,6 +350,39 @@ class VideoConverter {
             }
             // TODO: Next, implement the frame reading logic for audio on the audio processing queue
             // TODO: After that, implement the frame writing logic for audio
+            // TODO: Next, implement the frame reading logic for audio on the audio processing queue
+            if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
+                let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
+                let assetReaderAudioOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
+                if assetReader.canAdd(assetReaderAudioOutput) {
+                    assetReader.add(assetReaderAudioOutput)
+                }
+
+                let writerAudioSettings: [String: Any] = [
+                    AVFormatIDKey: kAudioFormatMPEG4AAC,
+                    AVEncoderBitRateKey: 128000,
+                    AVSampleRateKey: 44100,
+                    AVNumberOfChannelsKey: 2
+                ]
+                let assetWriterAudioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: writerAudioSettings)
+                if assetWriter.canAdd(assetWriterAudioInput) {
+                    assetWriter.add(assetWriterAudioInput)
+                }
+
+                assetWriterAudioInput.requestMediaDataWhenReady(on: self.audioProcessingQueue) {
+                    while assetWriterAudioInput.isReadyForMoreMediaData {
+                        if let sampleBuffer = assetReaderAudioOutput.copyNextSampleBuffer() {
+                            assetWriterAudioInput.append(sampleBuffer)
+                        } else {
+                            // No more audio samples are available: mark the input as finished
+                            assetWriterAudioInput.markAsFinished()
+                            break
+                        }
+                    }
+                }
+            }
+            // TODO: After that, handle the completion of audio processing
+            // TODO: After that, handle the overall completion of the asset writing process
         }
     }
 
@@ -740,6 +773,39 @@ class VideoConverter {
             }
             // TODO: Next, implement the frame reading logic for audio on the audio processing queue
             // TODO: After that, implement the frame writing logic for audio
+            // TODO: Next, implement the frame reading logic for audio on the audio processing queue
+            if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
+                let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
+                let assetReaderAudioOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
+                if assetReader.canAdd(assetReaderAudioOutput) {
+                    assetReader.add(assetReaderAudioOutput)
+                }
+
+                let writerAudioSettings: [String: Any] = [
+                    AVFormatIDKey: kAudioFormatMPEG4AAC,
+                    AVEncoderBitRateKey: 128000,
+                    AVSampleRateKey: 44100,
+                    AVNumberOfChannelsKey: 2
+                ]
+                let assetWriterAudioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: writerAudioSettings)
+                if assetWriter.canAdd(assetWriterAudioInput) {
+                    assetWriter.add(assetWriterAudioInput)
+                }
+
+                assetWriterAudioInput.requestMediaDataWhenReady(on: self.audioProcessingQueue) {
+                    while assetWriterAudioInput.isReadyForMoreMediaData {
+                        if let sampleBuffer = assetReaderAudioOutput.copyNextSampleBuffer() {
+                            assetWriterAudioInput.append(sampleBuffer)
+                        } else {
+                            // No more audio samples are available: mark the input as finished
+                            assetWriterAudioInput.markAsFinished()
+                            break
+                        }
+                    }
+                }
+            }
+            // TODO: After that, handle the completion of audio processing
+            // TODO: After that, handle the overall completion of the asset writing process
         }
     }
 

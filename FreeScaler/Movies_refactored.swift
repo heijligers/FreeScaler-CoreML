@@ -164,6 +164,28 @@ class VideoConverter {
         return (readerVideoTrackOutput, writerVideoInput, writerAdaptor)
     }
 
+    private func configureAudioSettings(for asset: AVURLAsset) throws -> (readerOutput: AVAssetReaderTrackOutput?, writerInput: AVAssetWriterInput?) {
+        var readerAudioTrackOutput: AVAssetReaderTrackOutput?
+        var writerAudioInput: AVAssetWriterInput?
+
+        if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
+            // Configure asset reader output for audio
+            let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
+            readerAudioTrackOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
+
+            // Configure asset writer input for audio
+            let writerAudioSettings: [String: Any] = [
+                AVFormatIDKey: kAudioFormatMPEG4AAC,
+                AVEncoderBitRateKey: 128000,
+                AVSampleRateKey: 44100,
+                AVNumberOfChannelsKey: 2
+            ]
+            writerAudioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: writerAudioSettings)
+        }
+
+        return (readerAudioTrackOutput, writerAudioInput)
+    }
+
     // ... (rest of the VideoConverter class)
 }
 
@@ -363,6 +385,28 @@ class VideoConverter {
         writerVideoInput.transform = assetVideoTrack.preferredTransform
 
         return (readerVideoTrackOutput, writerVideoInput, writerAdaptor)
+    }
+
+    private func configureAudioSettings(for asset: AVURLAsset) throws -> (readerOutput: AVAssetReaderTrackOutput?, writerInput: AVAssetWriterInput?) {
+        var readerAudioTrackOutput: AVAssetReaderTrackOutput?
+        var writerAudioInput: AVAssetWriterInput?
+
+        if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
+            // Configure asset reader output for audio
+            let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
+            readerAudioTrackOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
+
+            // Configure asset writer input for audio
+            let writerAudioSettings: [String: Any] = [
+                AVFormatIDKey: kAudioFormatMPEG4AAC,
+                AVEncoderBitRateKey: 128000,
+                AVSampleRateKey: 44100,
+                AVNumberOfChannelsKey: 2
+            ]
+            writerAudioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: writerAudioSettings)
+        }
+
+        return (readerAudioTrackOutput, writerAudioInput)
     }
 
     // ... (rest of the VideoConverter class)

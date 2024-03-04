@@ -19,6 +19,19 @@ class VideoConverter : NSObject{
     private func loadAndPrepareAsset(urlInput: URL) throws -> AVURLAsset {
         let asset = AVURLAsset(url: urlInput)
         var error: NSError?
+        let key = "tracks"
+        asset.loadValuesAsynchronously(forKeys: [key]) {
+            var status = asset.statusOfValue(forKey: key, error: &error)
+            if status != .loaded {
+                // Handle error
+            }
+        }
+        return asset
+    }
+    // Private method to load and prepare an asset
+    private func loadAndPrepareAsset(urlInput: URL) throws -> AVURLAsset {
+        let asset = AVURLAsset(url: urlInput)
+        var error: NSError?
         asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
             var status = AVKeyValueStatus.loaded
             status = asset.statusOfValue(forKey: "tracks", error: &error)
@@ -66,7 +79,7 @@ class VideoConverter : NSObject{
         // Next step: Refactor asset loading and preparation into a separate method
         // Step after next: Encapsulate asset reader and writer configuration into separate methods
         
-        asset.loadValuesAsynchronously(forKeys: []) {
+        let asset = try loadAndPrepareAsset(urlInput: urlInput)
             
             mainQueue.async {
                 let assetReader: AVAssetReader

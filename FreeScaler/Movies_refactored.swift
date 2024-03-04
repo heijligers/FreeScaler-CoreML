@@ -78,6 +78,38 @@ class VideoConverter {
                 return
             }
 
+            // Configure asset reader output for video
+            guard let assetVideoTrack = asset.tracks(withMediaType: .video).first else {
+                completion("Asset does not contain video tracks.")
+                return
+            }
+            let readerVideoSettings: [String: Any] = [
+                String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32ARGB)
+            ]
+            let assetReaderVideoOutput = AVAssetReaderTrackOutput(track: assetVideoTrack, outputSettings: readerVideoSettings)
+            if assetReader.canAdd(assetReaderVideoOutput) {
+                assetReader.add(assetReaderVideoOutput)
+            } else {
+                completion("Cannot add video output to asset reader.")
+                return
+            }
+
+            // Configure asset writer input for video
+            let writerVideoSettings: [String: Any] = [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: NSNumber(value: Float(assetVideoTrack.naturalSize.width)),
+                AVVideoHeightKey: NSNumber(value: Float(assetVideoTrack.naturalSize.height))
+            ]
+            let assetWriterVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: writerVideoSettings)
+            if assetWriter.canAdd(assetWriterVideoInput) {
+                assetWriter.add(assetWriterVideoInput)
+            } else {
+                completion("Cannot add video input to asset writer.")
+                return
+            }
+
+            // TODO: Next, set up the audio tracks for processing
+            // TODO: After that, implement the frame reading and writing logic
             // TODO: Configure the asset reader and writer with the appropriate settings for video and audio tracks
             // TODO: Next, start the reading and writing session
             // TODO: Handle the completion of asset loading and prepare the asset reader and writer
@@ -340,6 +372,38 @@ class VideoConverter {
                 return
             }
 
+            // Configure asset reader output for video
+            guard let assetVideoTrack = asset.tracks(withMediaType: .video).first else {
+                completion("Asset does not contain video tracks.")
+                return
+            }
+            let readerVideoSettings: [String: Any] = [
+                String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32ARGB)
+            ]
+            let assetReaderVideoOutput = AVAssetReaderTrackOutput(track: assetVideoTrack, outputSettings: readerVideoSettings)
+            if assetReader.canAdd(assetReaderVideoOutput) {
+                assetReader.add(assetReaderVideoOutput)
+            } else {
+                completion("Cannot add video output to asset reader.")
+                return
+            }
+
+            // Configure asset writer input for video
+            let writerVideoSettings: [String: Any] = [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: NSNumber(value: Float(assetVideoTrack.naturalSize.width)),
+                AVVideoHeightKey: NSNumber(value: Float(assetVideoTrack.naturalSize.height))
+            ]
+            let assetWriterVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: writerVideoSettings)
+            if assetWriter.canAdd(assetWriterVideoInput) {
+                assetWriter.add(assetWriterVideoInput)
+            } else {
+                completion("Cannot add video input to asset writer.")
+                return
+            }
+
+            // TODO: Next, set up the audio tracks for processing
+            // TODO: After that, implement the frame reading and writing logic
             // TODO: Configure the asset reader and writer with the appropriate settings for video and audio tracks
             // TODO: Next, start the reading and writing session
             // TODO: Handle the completion of asset loading and prepare the asset reader and writer

@@ -67,6 +67,19 @@ class VideoConverter {
         // Asynchronously load the asset values
         let asset = AVURLAsset(url: urlInput)
         asset.loadValuesAsynchronously(forKeys: []) {
+            // Prepare the asset reader and writer
+            var assetReader: AVAssetReader
+            var assetWriter: AVAssetWriter
+            do {
+                assetReader = try AVAssetReader(asset: asset)
+                assetWriter = try AVAssetWriter(outputURL: urlOutput, fileType: .mov)
+            } catch {
+                completion("Failed to initialize asset reader or writer: \(error)")
+                return
+            }
+
+            // TODO: Configure the asset reader and writer with the appropriate settings for video and audio tracks
+            // TODO: Next, start the reading and writing session
             // TODO: Handle the completion of asset loading and prepare the asset reader and writer
             // TODO: Next, set up the audio and video tracks for processing
         }
@@ -316,6 +329,19 @@ class VideoConverter {
         // Asynchronously load the asset values
         let asset = AVURLAsset(url: urlInput)
         asset.loadValuesAsynchronously(forKeys: []) {
+            // Prepare the asset reader and writer
+            var assetReader: AVAssetReader
+            var assetWriter: AVAssetWriter
+            do {
+                assetReader = try AVAssetReader(asset: asset)
+                assetWriter = try AVAssetWriter(outputURL: urlOutput, fileType: .mov)
+            } catch {
+                completion("Failed to initialize asset reader or writer: \(error)")
+                return
+            }
+
+            // TODO: Configure the asset reader and writer with the appropriate settings for video and audio tracks
+            // TODO: Next, start the reading and writing session
             // TODO: Handle the completion of asset loading and prepare the asset reader and writer
             // TODO: Next, set up the audio and video tracks for processing
         }

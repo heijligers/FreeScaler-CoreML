@@ -35,5 +35,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {  }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { return true }
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { return true }
+
+    @IBAction func showCustomModelsDirInFinder(_ sender: Any) {
+        // Implementation to show the custom models directory in Finder
+        // You will need to replace the following placeholder path with the actual path to the custom models directory
+        let path = "/path/to/custom/models/directory"
+        if let url = URL(string: path) {
+            NSWorkspace.shared.activateFileViewerSelecting([url])
+        }
+    }
 }
 

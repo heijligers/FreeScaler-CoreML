@@ -31,11 +31,20 @@ extension AVAssetWriter: AssetWritable {}
 class VideoConverter {
     private let assetReaderProvider: (AVURLAsset) throws -> AssetReadable
     private let assetWriterProvider: (URL) throws -> AssetWritable
+    private let videoProcessingQueue: DispatchQueue
+    private let audioProcessingQueue: DispatchQueue
+    private let completionQueue: DispatchQueue
 
-    init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init,
-         assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init) {
+    init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init(asset:),
+         assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init(outputURL:fileType:),
+         videoProcessingQueue: DispatchQueue = DispatchQueue(label: "videoProcessingQueue"),
+         audioProcessingQueue: DispatchQueue = DispatchQueue(label: "audioProcessingQueue"),
+         completionQueue: DispatchQueue = DispatchQueue.main) {
         self.assetReaderProvider = assetReaderProvider
         self.assetWriterProvider = assetWriterProvider
+        self.videoProcessingQueue = videoProcessingQueue
+        self.audioProcessingQueue = audioProcessingQueue
+        self.completionQueue = completionQueue
     }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
@@ -47,27 +56,34 @@ class VideoConverter {
             guard asset.tracks(withMediaType: .video).count > 0 else {
                 throw VideoConverterError.noVideoTracks
             }
-            // The refactored code now uses dependency injection for asset readers and writers,
-            // which allows for better testability and flexibility.
 
-            guard assetReader.startReading() else {
-                throw assetReader.error ?? VideoConverterError.unknownError
-            }
-            guard assetWriter.startWriting() else {
-                throw assetWriter.error ?? VideoConverterError.unknownError
-            }
-            assetWriter.startSession(atSourceTime: .zero)
+            // Prepare the asset reader and writer for processing
+            try prepareAssetReaderAndWriter(assetReader: assetReader, assetWriter: assetWriter)
 
             // The refactored code has removed the hardcoded video settings and now
             // dynamically configures the reader and writer based on the source asset.
-            // Finalize writing and notify completion
-            assetWriter.finishWriting {
-                let success = assetWriter.status == .completed
-                completion(success, assetWriter.error)
-            }
+            // Start the asynchronous video processing
+            processVideo(assetReader: assetReader, assetWriter: assetWriter, completion: completion)
         } catch {
             completion(false, error)
         }
+    }
+
+    private func prepareAssetReaderAndWriter(assetReader: AssetReadable, assetWriter: AssetWritable) throws {
+        guard assetReader.startReading() else {
+            throw assetReader.error ?? VideoConverterError.unknownError
+        }
+        guard assetWriter.startWriting() else {
+            throw assetWriter.error ?? VideoConverterError.unknownError
+        }
+        assetWriter.startSession(atSourceTime: .zero)
+    }
+
+    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void) {
+        // Implementation of video processing logic...
+        // This will include reading video frames, upscaling them, and writing them to the output.
+        // Use videoProcessingQueue and audioProcessingQueue for processing.
+        // Use completionQueue to call the completion handler.
     }
 
     // Additional helper methods for video processing...
@@ -76,6 +92,8 @@ class VideoConverter {
 enum VideoConverterError: Error {
     case noVideoTracks
     case unknownError
+    case readerInitializationFailed
+    case writerInitializationFailed
 }
 
 // Rest of the Movies_refactored.swift content...
@@ -105,11 +123,20 @@ extension AVAssetWriter: AssetWritable {}
 class VideoConverter {
     private let assetReaderProvider: (AVURLAsset) throws -> AssetReadable
     private let assetWriterProvider: (URL) throws -> AssetWritable
+    private let videoProcessingQueue: DispatchQueue
+    private let audioProcessingQueue: DispatchQueue
+    private let completionQueue: DispatchQueue
 
-    init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init,
-         assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init) {
+    init(assetReaderProvider: @escaping (AVURLAsset) throws -> AssetReadable = AVAssetReader.init(asset:),
+         assetWriterProvider: @escaping (URL) throws -> AssetWritable = AVAssetWriter.init(outputURL:fileType:),
+         videoProcessingQueue: DispatchQueue = DispatchQueue(label: "videoProcessingQueue"),
+         audioProcessingQueue: DispatchQueue = DispatchQueue(label: "audioProcessingQueue"),
+         completionQueue: DispatchQueue = DispatchQueue.main) {
         self.assetReaderProvider = assetReaderProvider
         self.assetWriterProvider = assetWriterProvider
+        self.videoProcessingQueue = videoProcessingQueue
+        self.audioProcessingQueue = audioProcessingQueue
+        self.completionQueue = completionQueue
     }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
@@ -158,14 +185,28 @@ class VideoConverter {
                 }
             }
 
-            // Finalize writing and notify completion
-            assetWriter.finishWriting {
-                let success = assetWriter.status == .completed
-                completion(success, assetWriter.error)
-            }
+            // Start the asynchronous video processing
+            processVideo(assetReader: assetReader, assetWriter: assetWriter, completion: completion)
         } catch {
             completion(false, error)
         }
+    }
+
+    private func prepareAssetReaderAndWriter(assetReader: AssetReadable, assetWriter: AssetWritable) throws {
+        guard assetReader.startReading() else {
+            throw assetReader.error ?? VideoConverterError.unknownError
+        }
+        guard assetWriter.startWriting() else {
+            throw assetWriter.error ?? VideoConverterError.unknownError
+        }
+        assetWriter.startSession(atSourceTime: .zero)
+    }
+
+    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void) {
+        // Implementation of video processing logic...
+        // This will include reading video frames, upscaling them, and writing them to the output.
+        // Use videoProcessingQueue and audioProcessingQueue for processing.
+        // Use completionQueue to call the completion handler.
     }
 
     // Additional helper methods for video processing...

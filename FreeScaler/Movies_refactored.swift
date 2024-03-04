@@ -64,6 +64,13 @@ class VideoConverter {
             }
         }
 
+        // Asynchronously load the asset values
+        let asset = AVURLAsset(url: urlInput)
+        asset.loadValuesAsynchronously(forKeys: []) {
+            // TODO: Handle the completion of asset loading and prepare the asset reader and writer
+            // TODO: Next, set up the audio and video tracks for processing
+        }
+
         // TODO: Next, implement asynchronous loading of asset values
 class VideoConverter {
     // ... (other properties and methods)
@@ -304,6 +311,13 @@ class VideoConverter {
                 completion("Failed to remove existing output file: \(error)")
                 return
             }
+        }
+
+        // Asynchronously load the asset values
+        let asset = AVURLAsset(url: urlInput)
+        asset.loadValuesAsynchronously(forKeys: []) {
+            // TODO: Handle the completion of asset loading and prepare the asset reader and writer
+            // TODO: Next, set up the audio and video tracks for processing
         }
 
         // TODO: Next, implement asynchronous loading of asset values

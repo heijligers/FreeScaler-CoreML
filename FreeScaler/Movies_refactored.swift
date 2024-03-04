@@ -108,6 +108,32 @@ class VideoConverter {
                 return
             }
 
+            // Configure asset reader output for audio
+            var assetReaderAudioOutput: AVAssetReaderTrackOutput?
+            var assetWriterAudioInput: AVAssetWriterInput?
+            if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
+                let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
+                assetReaderAudioOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
+                if assetReader.canAdd(assetReaderAudioOutput!) {
+                    assetReader.add(assetReaderAudioOutput!)
+                }
+
+                // Configure asset writer input for audio
+                let writerAudioSettings: [String: Any] = [
+                    AVFormatIDKey: kAudioFormatMPEG4AAC,
+                    AVEncoderBitRateKey: 128000,
+                    AVSampleRateKey: 44100,
+                    AVNumberOfChannelsKey: 2
+                ]
+                assetWriterAudioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: writerAudioSettings)
+                if assetWriter.canAdd(assetWriterAudioInput!) {
+                    assetWriter.add(assetWriterAudioInput!)
+                }
+            }
+
+            // TODO: Next, implement the frame reading and writing logic for video and audio
+            // TODO: After that, handle the completion of the writing process and invoke the completion handler
+
             // TODO: Next, set up the audio tracks for processing
             // TODO: After that, implement the frame reading and writing logic
             // TODO: Configure the asset reader and writer with the appropriate settings for video and audio tracks
@@ -401,6 +427,32 @@ class VideoConverter {
                 completion("Cannot add video input to asset writer.")
                 return
             }
+
+            // Configure asset reader output for audio
+            var assetReaderAudioOutput: AVAssetReaderTrackOutput?
+            var assetWriterAudioInput: AVAssetWriterInput?
+            if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
+                let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
+                assetReaderAudioOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
+                if assetReader.canAdd(assetReaderAudioOutput!) {
+                    assetReader.add(assetReaderAudioOutput!)
+                }
+
+                // Configure asset writer input for audio
+                let writerAudioSettings: [String: Any] = [
+                    AVFormatIDKey: kAudioFormatMPEG4AAC,
+                    AVEncoderBitRateKey: 128000,
+                    AVSampleRateKey: 44100,
+                    AVNumberOfChannelsKey: 2
+                ]
+                assetWriterAudioInput = AVAssetWriterInput(mediaType: .audio, outputSettings: writerAudioSettings)
+                if assetWriter.canAdd(assetWriterAudioInput!) {
+                    assetWriter.add(assetWriterAudioInput!)
+                }
+            }
+
+            // TODO: Next, implement the frame reading and writing logic for video and audio
+            // TODO: After that, handle the completion of the writing process and invoke the completion handler
 
             // TODO: Next, set up the audio tracks for processing
             // TODO: After that, implement the frame reading and writing logic

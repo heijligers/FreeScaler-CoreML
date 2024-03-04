@@ -37,6 +37,8 @@
 		3FCA282E29354A24005F9106 /* FSImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA282C29354A24005F9106 /* FSImageViewController.xib */; };
 		3FCA283329354C73005F9106 /* FSMainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA283129354C73005F9106 /* FSMainWindowController.swift */; };
 		3FCA283429354C73005F9106 /* FSMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FCA283229354C73005F9106 /* FSMainWindowController.xib */; };
+		D405BB9B2B966B6E00152ACA /* FreeScalerTests in Resources */ = {isa = PBXBuildFile; fileRef = D405BB9A2B966B6E00152ACA /* FreeScalerTests */; };
+		D405BB9F2B966B8400152ACA /* UpscalerRefactored.swift in Sources */ = {isa = PBXBuildFile; fileRef = D405BB9D2B966B8400152ACA /* UpscalerRefactored.swift */; };
 		D4E5E9C029365F55002A1DC8 /* realesrganAnime512.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D4E5E9BF29365F55002A1DC8 /* realesrganAnime512.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +75,8 @@
 		3FCA282C29354A24005F9106 /* FSImageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FSImageViewController.xib; sourceTree = "<group>"; };
 		3FCA283129354C73005F9106 /* FSMainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSMainWindowController.swift; sourceTree = "<group>"; };
 		3FCA283229354C73005F9106 /* FSMainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FSMainWindowController.xib; sourceTree = "<group>"; };
+		D405BB9A2B966B6E00152ACA /* FreeScalerTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = FreeScalerTests; sourceTree = "<group>"; };
+		D405BB9D2B966B8400152ACA /* UpscalerRefactored.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpscalerRefactored.swift; path = FreeScaler/UpscalerRefactored.swift; sourceTree = "<group>"; };
 		D4E5E9BF29365F55002A1DC8 /* realesrganAnime512.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = realesrganAnime512.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +122,8 @@
 		3FCA27FD29353E03005F9106 = {
 			isa = PBXGroup;
 			children = (
+				D405BB9D2B966B8400152ACA /* UpscalerRefactored.swift */,
+				D405BB9A2B966B6E00152ACA /* FreeScalerTests */,
 				3F56540F2936FF8900CF6601 /* README.md */,
 				3FCA280829353E03005F9106 /* FreeScaler */,
 				3FCA280729353E03005F9106 /* Products */,
@@ -266,6 +272,7 @@
 				3F8FBC9929358885000B72E4 /* Freescaler.png in Resources */,
 				3FA36193294A3E3A000A4B01 /* Info.plist in Resources */,
 				3FCA282E29354A24005F9106 /* FSImageViewController.xib in Resources */,
+				D405BB9B2B966B6E00152ACA /* FreeScalerTests in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +293,7 @@
 				3F8FBCA72935A533000B72E4 /* Movies.swift in Sources */,
 				D4E5E9C029365F55002A1DC8 /* realesrganAnime512.mlmodel in Sources */,
 				3F56540E2936E27000CF6601 /* Custom Models.swift in Sources */,
+				D405BB9F2B966B8400152ACA /* UpscalerRefactored.swift in Sources */,
 				3FCA282129353F0C005F9106 /* Start.swift in Sources */,
 				3FCA282929354895005F9106 /* Upscaler.swift in Sources */,
 				3F7CD702293FFA8C00379287 /* FSBatchViewController.swift in Sources */,

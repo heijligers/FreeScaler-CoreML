@@ -14,37 +14,6 @@ class VideoConverter : NSObject{
     
     static let shared = VideoConverter()
     private override init() {}
-
-    // Correct implementation of loadAndPrepareAsset with proper error handling and synchronization
-    private func loadAndPrepareAsset(urlInput: URL, completion: @escaping (Result<AVURLAsset, Error>) -> Void) {
-        let asset = AVURLAsset(url: urlInput)
-        let keys = ["tracks"]
-        asset.loadValuesAsynchronously(forKeys: keys) {
-            for key in keys {
-                var error: NSError?
-                let status = asset.statusOfValue(forKey: key, error: &error)
-                if status == .failed || status == .cancelled {
-                    completion(.failure(error ?? NSError(domain: "com.freescaler", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to load asset tracks."])))
-                    return
-                }
-            }
-            completion(.success(asset))
-        }
-    }
-
-    // Private method to check and remove existing output file
-    private func checkAndRemoveExistingOutputFile(urlOutput: URL) throws {
-        if FileManager.default.fileExists(atPath: urlOutput.path) {
-            do {
-                try FileManager.default.removeItem(atPath: urlOutput.path)
-            } catch {
-                throw error
-            }
-        }
-
-        // Next step: Refactor asset loading and preparation into a separate method
-        // Step after next: Encapsulate asset reader and writer configuration into separate methods
-    }
     
     
     func upscale(urlInput: URL, urlOutput: URL, completion: @escaping ((String) -> Void)) {
@@ -61,15 +30,11 @@ class VideoConverter : NSObject{
             do {
                 try FileManager.default.removeItem(atPath: urlOutput.path)
             } catch {
-                completion("Failed to remove existing output file: \(error)")
-                return
+                fatalError("file not found")
             }
         }
-
-        // Next step: Refactor asset loading and preparation into a separate method
-        // Step after next: Encapsulate asset reader and writer configuration into separate methods
         
-        let asset = try loadAndPrepareAsset(urlInput: urlInput)
+        asset.loadValuesAsynchronously(forKeys: []) {
             
             mainQueue.async {
                 let assetReader: AVAssetReader
@@ -260,34 +225,9 @@ class VideoConverter : NSObject{
                 })
             }
         }
-
-        // Next step: Refactor asset loading and preparation into a separate method
-        // Step after next: Encapsulate asset reader and writer configuration into separate methods
     }
     
     
     
 }
-    // Private method to load and prepare an asset
-    private func loadAndPrepareAsset(urlInput: URL) throws -> AVURLAsset {
-        let asset = AVURLAsset(url: urlInput)
-        var error: NSError?
-        let key = "tracks"
-        let group = DispatchGroup()
-        group.enter()
-        asset.loadValuesAsynchronously(forKeys: [key]) {
-            var status = asset.statusOfValue(forKey: key, error: &error)
-            if status != .loaded {
-                // Handle error
-            }
-            group.leave()
-        }
-        group.wait()
-        return asset
-    }
-        do {
-            let asset = try loadAndPrepareAsset(urlInput: urlInput)
-        } catch {
-            completion("Failed to load and prepare asset: \(error)")
-            return
-        }
+

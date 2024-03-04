@@ -31,7 +31,7 @@ extension AVAssetWriter: AssetWritable {}
 class VideoConverter {
     static let shared = VideoConverter()
     private let mainQueue = DispatchQueue(label: "com.freescaler.mainQueue")
-    private let audioQueue = DispatchQueue(label: "com.freescaler.audioQueue")
+    private let audioProcessingQueue = DispatchQueue(label: "com.freescaler.audioProcessingQueue")
     private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
@@ -348,6 +348,8 @@ class VideoConverter {
                     break
                 }
             }
+            // TODO: Next, implement the frame reading logic for audio on the audio processing queue
+            // TODO: After that, implement the frame writing logic for audio
         }
     }
 
@@ -392,7 +394,7 @@ extension AVAssetWriter: AssetWritable {}
 class VideoConverter {
     static let shared = VideoConverter()
     private let mainQueue = DispatchQueue(label: "com.freescaler.mainQueue")
-    private let audioQueue = DispatchQueue(label: "com.freescaler.audioQueue")
+    private let audioProcessingQueue = DispatchQueue(label: "com.freescaler.audioProcessingQueue")
     private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
@@ -736,6 +738,8 @@ class VideoConverter {
                     break
                 }
             }
+            // TODO: Next, implement the frame reading logic for audio on the audio processing queue
+            // TODO: After that, implement the frame writing logic for audio
         }
     }
 

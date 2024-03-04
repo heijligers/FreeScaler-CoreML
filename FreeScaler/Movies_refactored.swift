@@ -103,16 +103,46 @@ class VideoConverter {
     }
 
     private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
-    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
+    private func processVideo(asset: AVURLAsset, assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
                 // Implementation of video processing logic...
                 // This will include reading video frames, upscaling them, and writing them to the output.
-                // Placeholder for actual video processing logic:
-                // while let frame = readNextFrame(assetReader) {
-                //     let upscaledFrame = upscaleFrame(frame)
-                //     writeFrame(upscaledFrame, assetWriter)
-                // }
+                let videoSettings = try self.configureVideoSettings(for: asset)
+                let readerOutput = videoSettings.readerOutput
+                let writerInput = videoSettings.writerInput
+                let writerAdaptor = videoSettings.writerAdaptor
+                let totalDuration = asset.duration
+                var processedDuration = CMTime.zero
+
+                while writerInput.isReadyForMoreMediaData {
+                    if let sampleBuffer = readerOutput.copyNextSampleBuffer() {
+                        let presentationTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+                        processedDuration = presentationTime
+                        progress(processedDuration.seconds / totalDuration.seconds)
+
+                        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                            if let upscaledBuffer = self.upscaler.upscale(buffer: imageBuffer) {
+                                writerAdaptor.append(upscaledBuffer, withPresentationTime: presentationTime)
+                            } else {
+                                throw VideoConverterError.upscaleFailed
+                            }
+                        }
+                    } else {
+                        writerInput.markAsFinished()
+                        break
+                    }
+                }
+
+                if assetReader.status == .completed && assetWriter.status == .writing {
+                    assetWriter.finishWriting {
+                        completionQueue.async {
+                            completion(true, nil)
+                        }
+                    }
+                } else {
+                    throw assetReader.error ?? assetWriter.error ?? VideoConverterError.unknownError
+                }
                 let totalDuration = asset.duration
                 var processedDuration = CMTime.zero
                 // Simulate successful processing:
@@ -344,16 +374,46 @@ class VideoConverter {
     }
 
     private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
-    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
+    private func processVideo(asset: AVURLAsset, assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
                 // Implementation of video processing logic...
                 // This will include reading video frames, upscaling them, and writing them to the output.
-                // Placeholder for actual video processing logic:
-                // while let frame = readNextFrame(assetReader) {
-                //     let upscaledFrame = upscaleFrame(frame)
-                //     writeFrame(upscaledFrame, assetWriter)
-                // }
+                let videoSettings = try self.configureVideoSettings(for: asset)
+                let readerOutput = videoSettings.readerOutput
+                let writerInput = videoSettings.writerInput
+                let writerAdaptor = videoSettings.writerAdaptor
+                let totalDuration = asset.duration
+                var processedDuration = CMTime.zero
+
+                while writerInput.isReadyForMoreMediaData {
+                    if let sampleBuffer = readerOutput.copyNextSampleBuffer() {
+                        let presentationTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+                        processedDuration = presentationTime
+                        progress(processedDuration.seconds / totalDuration.seconds)
+
+                        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                            if let upscaledBuffer = self.upscaler.upscale(buffer: imageBuffer) {
+                                writerAdaptor.append(upscaledBuffer, withPresentationTime: presentationTime)
+                            } else {
+                                throw VideoConverterError.upscaleFailed
+                            }
+                        }
+                    } else {
+                        writerInput.markAsFinished()
+                        break
+                    }
+                }
+
+                if assetReader.status == .completed && assetWriter.status == .writing {
+                    assetWriter.finishWriting {
+                        completionQueue.async {
+                            completion(true, nil)
+                        }
+                    }
+                } else {
+                    throw assetReader.error ?? assetWriter.error ?? VideoConverterError.unknownError
+                }
                 let totalDuration = asset.duration
                 var processedDuration = CMTime.zero
                 // Simulate successful processing:

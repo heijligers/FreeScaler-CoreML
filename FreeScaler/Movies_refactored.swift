@@ -149,6 +149,10 @@ class VideoConverter {
                             // Call the upscaling method from the Upscaler class
                             if let upscaledBuffer = Upscaler.shared.predictPixelBuffer(buffer: imageBuffer) {
                                 // TODO: Next, append the upscaled video frame to the asset writer input
+                                // Append the upscaled video frame to the asset writer input
+                                if assetWriterVideoInput.isReadyForMoreMediaData {
+                                    assetWriterVideoInput.append(upscaledBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+                                }
                             } else {
                                 // TODO: Handle the error if upscaling fails
                             }
@@ -160,6 +164,8 @@ class VideoConverter {
                         break
                     }
                 }
+                // TODO: Next, handle the completion of video processing
+                // TODO: After that, start the audio processing logic
             }
             // TODO: After that, implement the frame reading and writing logic for audio
         }
@@ -504,6 +510,10 @@ class VideoConverter {
                             // Call the upscaling method from the Upscaler class
                             if let upscaledBuffer = Upscaler.shared.predictPixelBuffer(buffer: imageBuffer) {
                                 // TODO: Next, append the upscaled video frame to the asset writer input
+                                // Append the upscaled video frame to the asset writer input
+                                if assetWriterVideoInput.isReadyForMoreMediaData {
+                                    assetWriterVideoInput.append(upscaledBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+                                }
                             } else {
                                 // TODO: Handle the error if upscaling fails
                             }
@@ -515,6 +525,8 @@ class VideoConverter {
                         break
                     }
                 }
+                // TODO: Next, handle the completion of video processing
+                // TODO: After that, start the audio processing logic
             }
             // TODO: After that, implement the frame reading and writing logic for audio
         }

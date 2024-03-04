@@ -17,6 +17,11 @@
     }
   },
   "testTargets" : [
+    {
+      "targetID" : "TARGET_ID",
+      "targetName" : "FreeScalerTests",
+      "skipped" : false
+    }
 
   ],
   "version" : 1

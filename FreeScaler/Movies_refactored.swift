@@ -245,9 +245,6 @@ class VideoConverter {
                     break
                 }
             }
-            // TODO: Next, implement the frame reading logic for audio on the audio processing queue
-            // TODO: After that, implement the frame writing logic for audio
-            // TODO: Next, implement the frame reading logic for audio on the audio processing queue
             if let assetAudioTrack = asset.tracks(withMediaType: .audio).first {
                 let readerAudioSettings: [String: Any] = [AVFormatIDKey: kAudioFormatLinearPCM]
                 let assetReaderAudioOutput = AVAssetReaderTrackOutput(track: assetAudioTrack, outputSettings: readerAudioSettings)
@@ -279,7 +276,6 @@ class VideoConverter {
                 }
             }
             // TODO: After that, handle the completion of audio processing
-            // TODO: After that, handle the overall completion of the asset writing process
         }
     }
 

@@ -120,11 +120,7 @@ class VideoConverter {
     private let videoQueue = DispatchQueue(label: "com.freescaler.videoQueue")
     private override init() {}
 
-    // TODO: Implement state management to track the progress and status of the conversion.
-    // TODO: Add validation and precondition checks to ensure the integrity of input data.
 
-    // TODO: Implement comprehensive error handling and propagation to ensure that any issues during
-    // video conversion are communicated back to the caller with appropriate context.
 
 
     // TODO: Manage resources effectively, ensuring that file handles, memory buffers, and other

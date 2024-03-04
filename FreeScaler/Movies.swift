@@ -15,6 +15,20 @@ class VideoConverter : NSObject{
     static let shared = VideoConverter()
     private override init() {}
 
+    // Private method to load and prepare an asset
+    private func loadAndPrepareAsset(urlInput: URL) throws -> AVURLAsset {
+        let asset = AVURLAsset(url: urlInput)
+        var error: NSError?
+        asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
+            var status = AVKeyValueStatus.loaded
+            status = asset.statusOfValue(forKey: "tracks", error: &error)
+            if status != .loaded {
+                throw error ?? NSError(domain: "com.freescaler", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to load asset tracks."])
+            }
+        }
+        return asset
+    }
+
     // Private method to check and remove existing output file
     private func checkAndRemoveExistingOutputFile(urlOutput: URL) throws {
         if FileManager.default.fileExists(atPath: urlOutput.path) {

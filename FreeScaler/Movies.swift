@@ -14,6 +14,20 @@ class VideoConverter : NSObject{
     
     static let shared = VideoConverter()
     private override init() {}
+
+    // Private method to check and remove existing output file
+    private func checkAndRemoveExistingOutputFile(urlOutput: URL) throws {
+        if FileManager.default.fileExists(atPath: urlOutput.path) {
+            do {
+                try FileManager.default.removeItem(atPath: urlOutput.path)
+            } catch {
+                throw error
+            }
+        }
+
+        // Next step: Refactor asset loading and preparation into a separate method
+        // Step after next: Encapsulate asset reader and writer configuration into separate methods
+    }
     
     
     func upscale(urlInput: URL, urlOutput: URL, completion: @escaping ((String) -> Void)) {
@@ -30,9 +44,13 @@ class VideoConverter : NSObject{
             do {
                 try FileManager.default.removeItem(atPath: urlOutput.path)
             } catch {
-                fatalError("file not found")
+                completion("Failed to remove existing output file: \(error)")
+                return
             }
         }
+
+        // Next step: Refactor asset loading and preparation into a separate method
+        // Step after next: Encapsulate asset reader and writer configuration into separate methods
         
         asset.loadValuesAsynchronously(forKeys: []) {
             
@@ -225,9 +243,11 @@ class VideoConverter : NSObject{
                 })
             }
         }
+
+        // Next step: Refactor asset loading and preparation into a separate method
+        // Step after next: Encapsulate asset reader and writer configuration into separate methods
     }
     
     
     
 }
-

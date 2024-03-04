@@ -80,7 +80,6 @@ class Upscaler : NSObject {
         return nil
     }
 
-    // MARK: Predict MOVIE FRAME
 
     func predictPixelBuffer(buffer:CVPixelBuffer) -> CVPixelBuffer? {
         autoreleasepool{

@@ -123,8 +123,6 @@ class VideoConverter {
 
 
 
-    // TODO: Manage resources effectively, ensuring that file handles, memory buffers, and other
-    // resources are properly released to prevent leaks and ensure proper cleanup after processing.
 
 
     private func processVideo(asset: AVURLAsset, assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
@@ -275,7 +273,6 @@ class VideoConverter {
                     }
                 }
             }
-            // TODO: After that, handle the completion of audio processing
         }
     }
 

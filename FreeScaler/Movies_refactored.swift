@@ -54,6 +54,17 @@ class VideoConverter {
 
 
     func upscale(urlInput: URL, urlOutput: URL, completion: @escaping ((String) -> Void)) {
+        // Check if the output file already exists and remove it if necessary
+        if FileManager.default.fileExists(atPath: urlOutput.path) {
+            do {
+                try FileManager.default.removeItem(atPath: urlOutput.path)
+            } catch {
+                completion("Failed to remove existing output file: \(error)")
+                return
+            }
+        }
+
+        // TODO: Next, implement asynchronous loading of asset values
 class VideoConverter {
     // ... (other properties and methods)
 
@@ -285,6 +296,17 @@ class VideoConverter {
 
 
     func upscale(urlInput: URL, urlOutput: URL, completion: @escaping ((String) -> Void)) {
+        // Check if the output file already exists and remove it if necessary
+        if FileManager.default.fileExists(atPath: urlOutput.path) {
+            do {
+                try FileManager.default.removeItem(atPath: urlOutput.path)
+            } catch {
+                completion("Failed to remove existing output file: \(error)")
+                return
+            }
+        }
+
+        // TODO: Next, implement asynchronous loading of asset values
         do {
             let assetReader = try assetReaderProvider(asset)
             let assetWriter = try assetWriterProvider(outputURL)

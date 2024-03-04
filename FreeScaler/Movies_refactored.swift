@@ -34,6 +34,7 @@ class VideoConverter {
     private let videoProcessingQueue: DispatchQueue
     private let audioProcessingQueue: DispatchQueue
     private let completionQueue: DispatchQueue
+    private let upscaler: Upscaler
 
     // TODO: Implement error propagation to handle and forward errors during processing.
     // TODO: Use protocols/interfaces to abstract the video and audio processing components.
@@ -62,6 +63,7 @@ class VideoConverter {
         self.videoProcessingQueue = videoProcessingQueue
         self.audioProcessingQueue = audioProcessingQueue
         self.completionQueue = completionQueue
+        self.upscaler = Upscaler.shared
     }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
@@ -181,6 +183,7 @@ class VideoConverter {
     private let videoProcessingQueue: DispatchQueue
     private let audioProcessingQueue: DispatchQueue
     private let completionQueue: DispatchQueue
+    private let upscaler: Upscaler
 
     // TODO: Implement error propagation to handle and forward errors during processing.
     // TODO: Use protocols/interfaces to abstract the video and audio processing components.
@@ -209,6 +212,7 @@ class VideoConverter {
         self.videoProcessingQueue = videoProcessingQueue
         self.audioProcessingQueue = audioProcessingQueue
         self.completionQueue = completionQueue
+        self.upscaler = Upscaler.shared
     }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {

@@ -65,6 +65,10 @@ class VideoConverter {
     }
 
     func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void) {
+class VideoConverter {
+    // ... (other properties and methods)
+
+    func upscale(asset: AVURLAsset, outputURL: URL, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         do {
             let assetReader = try assetReaderProvider(asset)
             let assetWriter = try assetWriterProvider(outputURL)
@@ -80,7 +84,7 @@ class VideoConverter {
             // The refactored code has removed the hardcoded video settings and now
             // dynamically configures the reader and writer based on the source asset.
             // Start the asynchronous video processing
-            processVideo(assetReader: assetReader, assetWriter: assetWriter, completion: completion)
+            processVideo(assetReader: assetReader, assetWriter: assetWriter, completion: completion, progress: progress)
         } catch {
             completion(false, error)
         }
@@ -97,6 +101,7 @@ class VideoConverter {
     }
 
     private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void) {
+    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
                 // Implementation of video processing logic...
@@ -106,8 +111,11 @@ class VideoConverter {
                 //     let upscaledFrame = upscaleFrame(frame)
                 //     writeFrame(upscaledFrame, assetWriter)
                 // }
+                let totalDuration = asset.duration
+                var processedDuration = CMTime.zero
                 // Simulate successful processing:
                 completionQueue.async {
+                    progress(processedDuration.seconds / totalDuration.seconds)
                     completion(true, nil)
                 }
             } catch {
@@ -118,6 +126,10 @@ class VideoConverter {
         }
     }
 
+    // ... (rest of the VideoConverter class)
+}
+
+// ... (rest of the Movies_refactored.swift content)
     // Additional helper methods for video processing...
 }
 
@@ -235,7 +247,7 @@ class VideoConverter {
             }
 
             // Start the asynchronous video processing
-            processVideo(assetReader: assetReader, assetWriter: assetWriter, completion: completion)
+            processVideo(assetReader: assetReader, assetWriter: assetWriter, completion: completion, progress: progress)
         } catch {
             completion(false, error)
         }
@@ -252,6 +264,7 @@ class VideoConverter {
     }
 
     private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void) {
+    private func processVideo(assetReader: AssetReadable, assetWriter: AssetWritable, completion: @escaping (Bool, Error?) -> Void, progress: @escaping (Double) -> Void) {
         videoProcessingQueue.async {
             do {
                 // Implementation of video processing logic...
@@ -261,8 +274,11 @@ class VideoConverter {
                 //     let upscaledFrame = upscaleFrame(frame)
                 //     writeFrame(upscaledFrame, assetWriter)
                 // }
+                let totalDuration = asset.duration
+                var processedDuration = CMTime.zero
                 // Simulate successful processing:
                 completionQueue.async {
+                    progress(processedDuration.seconds / totalDuration.seconds)
                     completion(true, nil)
                 }
             } catch {
@@ -273,6 +289,10 @@ class VideoConverter {
         }
     }
 
+    // ... (rest of the VideoConverter class)
+}
+
+// ... (rest of the Movies_refactored.swift content)
     // Additional helper methods for video processing...
 }
 

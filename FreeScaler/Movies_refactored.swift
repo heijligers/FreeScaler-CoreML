@@ -138,6 +138,20 @@ class VideoConverter {
                 assetWriter.startSession(atSourceTime: .zero)
 
                 // TODO: Next, implement the frame reading and writing logic for video
+            // Request media data when ready on the video processing queue
+            assetWriterVideoInput.requestMediaDataWhenReady(on: self.videoQueue) {
+                // Read video frames from the asset reader output
+                while assetWriterVideoInput.isReadyForMoreMediaData {
+                    if let sampleBuffer = assetReaderVideoOutput.copyNextSampleBuffer() {
+                        // TODO: Next, upscale the video frames and append them to the asset writer input
+                        // TODO: After that, mark the asset writer input as finished when all frames are processed
+                    } else {
+                        // No more samples are available: mark the input as finished
+                        assetWriterVideoInput.markAsFinished()
+                        break
+                    }
+                }
+            }
                 // TODO: After that, implement the frame reading and writing logic for audio
             }
 
@@ -468,6 +482,20 @@ class VideoConverter {
                 assetWriter.startSession(atSourceTime: .zero)
 
                 // TODO: Next, implement the frame reading and writing logic for video
+            // Request media data when ready on the video processing queue
+            assetWriterVideoInput.requestMediaDataWhenReady(on: self.videoQueue) {
+                // Read video frames from the asset reader output
+                while assetWriterVideoInput.isReadyForMoreMediaData {
+                    if let sampleBuffer = assetReaderVideoOutput.copyNextSampleBuffer() {
+                        // TODO: Next, upscale the video frames and append them to the asset writer input
+                        // TODO: After that, mark the asset writer input as finished when all frames are processed
+                    } else {
+                        // No more samples are available: mark the input as finished
+                        assetWriterVideoInput.markAsFinished()
+                        break
+                    }
+                }
+            }
                 // TODO: After that, implement the frame reading and writing logic for audio
             }
 
